@@ -2,7 +2,7 @@ import axios from 'axios';
 import { deflate } from 'zlib';
 
 const api = axios.create({
-    baseURL: 'http://localhost:3333'
+    baseURL: 'https://nlw-ecoleta-web.herokuapp.com/'
 })
 
 export default api
