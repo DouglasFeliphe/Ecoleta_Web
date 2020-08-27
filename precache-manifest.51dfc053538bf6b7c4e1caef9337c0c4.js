@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3f68352339b232c29797dbaf24fc90a8",
+    "revision": "46eec2862c60c13d86445d6b643bb4ea",
     "url": "/Ecoleta_Web/index.html"
   },
   {
-    "revision": "c336a274abba390f6987",
+    "revision": "8be1fb1d08ace6fe2cf0",
     "url": "/Ecoleta_Web/static/css/main.cb7d8325.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Ecoleta_Web/static/js/2.52d37b34.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c336a274abba390f6987",
-    "url": "/Ecoleta_Web/static/js/main.2f261c26.chunk.js"
+    "revision": "8be1fb1d08ace6fe2cf0",
+    "url": "/Ecoleta_Web/static/js/main.ea4ed631.chunk.js"
   },
   {
     "revision": "a43cbc4b7d244d431695",
