@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { deflate } from 'zlib';
+const { REACT_APP_API_URL } = process.env;
 
 const api = axios.create({
-    baseURL: 'https://nlw-ecoleta-web.herokuapp.com/'
+    baseURL: REACT_APP_API_URL
 })
 
 export default api

@@ -1,13 +1,16 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Map, TileLayer, Marker } from 'react-leaflet';
 import { LeafletMouseEvent } from 'leaflet';
 import api from '../../services/api';
 import axios from 'axios';
+import Dropzone from '../../components/Dropzone'
 
-import { FiArrowLeft, FiCheckCircle } from 'react-icons/fi';
+import { FiArrowLeft } from 'react-icons/fi';
 import logo from '../../assets/logo.svg';
 import './styles.css';
+import SuccessScreen from '../../components/SucessScreen';
+
 
 interface Item {
     id: number,
@@ -34,37 +37,36 @@ interface IBGE_City_Response {
 
 const CreatePoint: React.FC = () => {
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [whatsapp, setWhatsapp] = useState('');
     const [items, setItems] = useState<Item[]>([])
-    const [itemActive, setItemActive] = useState(false)
     const [ufs, setUfs] = useState<string[]>([])
-    const [selectedUf, setSelectedUf] = useState('0')
     const [cities, setCities] = useState<string[]>([])
-    const [selectedCity, setSelectedCity] = useState('0');
-    const [selectedMapPosition, setSelectedMapPosition] = useState<[number, number]>([0, 0]);
     const [inititalMapPosition, setInititalMapPosition] = useState<[number, number]>([0, 0]);
-    const [selectedItems, setSelectedItems] = useState<number[]>([]);
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         whatsapp: ''
     });
-    const [confirm, setConfirm] = useState(' ');
 
-    const history = useHistory()
+    const [selectedUf, setSelectedUf] = useState('0')
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
+    const [selectedCity, setSelectedCity] = useState('0');
+    const [selectedMapPosition, setSelectedMapPosition] = useState<[number, number]>([0, 0]);
+    const [selectedFile, setSelectedFile] = useState<File>();
 
-    useEffect(() => {
-        //  carregando a localização atual do usuário no mapa
+    const [successScreen, setSuccessScreen] = useState(' ');
+
+    //  carregando a localização atual do usuário no mapa
+    useEffect(() => {        
+      
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords
             setInititalMapPosition([latitude, longitude])
         })
     }, [])
 
+    // listando todos os items de coleta
     useEffect(() => {
-        // listando todos os items de coleta
         api.get('items').then(response => {
             setItems(response.data)
         })
@@ -78,8 +80,8 @@ const CreatePoint: React.FC = () => {
             })
     }, [])
 
+    // carregar as cidades sempre que a UF mudar 
     useEffect(() => {
-        // carregar as cidades sempre que a UF mudar 
         if (selectedUf === '0') {
             return
         }
@@ -89,11 +91,15 @@ const CreatePoint: React.FC = () => {
                 setCities(cityNames)
             })
     }, [selectedUf])
-    // carregando a tela da confirmação de cadastro do ponto, sempre que o ponto for cadastrado
+
+
+    // carregando a tela da successScreenação de cadastro do ponto,
+    // sempre que o ponto for cadastrado.
     useEffect(() => {
 
-        setConfirm(confirm)
-    }, [confirm])
+        setSuccessScreen('')
+    }, [successScreen])
+
 
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -133,7 +139,7 @@ const CreatePoint: React.FC = () => {
 
     }
 
-    function handleSubmit(event: FormEvent) {
+    async function handleSubmit(event: FormEvent) {
         // impede o recarregamento da página
         event.preventDefault()
 
@@ -143,20 +149,27 @@ const CreatePoint: React.FC = () => {
         const [latitude, longitude] = selectedMapPosition
         const items = selectedItems
 
-        const data = {
-            name,
-            whatsapp,
-            email,
-            uf,
-            city,
-            latitude,
-            longitude,
-            items
+        const data = new FormData()
+
+        data.append('name', name);
+        data.append('whatsapp', whatsapp);
+        data.append('email', email);
+        data.append('uf', uf);
+        data.append('city', city);
+        data.append('latitude', String(latitude));
+        data.append('longitude', String(longitude));
+        data.append('items', items.join(','));
+
+        // envia imagem apenas se o usuário estiver inserido uma imagem.
+        if (selectedFile) {
+            data.append('image', selectedFile)
         }
 
-        // await api.post('point', data)
-        setConfirm('visible')
-        console.log('confirm :>> ', confirm)
+        await api.post('point', data)
+
+        alert('Ponto de coleta criado!');
+
+        setSuccessScreen('visible')
     }
 
     return (
@@ -164,7 +177,7 @@ const CreatePoint: React.FC = () => {
             <div id="page-create-point">
                 <header>
                     <img src={logo} alt="" />
-                    <Link to='/' >
+                    <Link className='home' to='/Ecoleta_Web' >
                         <FiArrowLeft />
                     Voltar para home
                 </Link>
@@ -172,6 +185,9 @@ const CreatePoint: React.FC = () => {
 
                 <form onSubmit={e => handleSubmit(e)}>
                     <h1>Cadastro do<br /> ponto de coleta</h1>
+
+                    <Dropzone onFileUploaded={setSelectedFile} />
+
                     <fieldset>
                         <legend>
                             <h2>Dados</h2>
@@ -249,7 +265,7 @@ const CreatePoint: React.FC = () => {
                         </div>
 
                     </fieldset>
-                    <fieldset>
+                    <fieldset >
                         <legend>
                             <h2>Ítems de coleta</h2>
                             <span>Selecione um ou mais ítens abaixo</span>
@@ -270,14 +286,7 @@ const CreatePoint: React.FC = () => {
                     <button type="submit">Cadastrar Ponto de Coleta</button>
                 </form>
             </div >
-
-            <div id='page-alert-confirm' className={confirm}>
-                <Link to='/'>
-                    <FiCheckCircle />
-                    <h1>Cadastro concluído!</h1>
-                </Link>
-            </div>
-
+            <SuccessScreen className={successScreen}></SuccessScreen>
         </>
     )
 }

@@ -1,3 +1,11 @@
 
 npm i react-icons
 npm i react-router-dom -D
+
+// fazer deploy no gitpages
+"scripts": {
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build"
+}
+
+rode: npm run deploy

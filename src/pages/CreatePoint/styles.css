@@ -81,6 +81,7 @@
 
 #page-create-point form .field input[type="text"],
 #page-create-point form .field input[type="email"],
+#page-create-point form .field input[type="file"],
 #page-create-point form .field input[type="number"] {
     flex: 1;
     background: #f0f0f5;
@@ -191,7 +192,6 @@
 .items-grid li span {
     flex: 1;
     margin-top: 12px;
-
     display: flex;
     align-items: center;
     color: var(--title-color);
@@ -240,5 +240,49 @@
     }
     to {
         font-size: 66px;
+    }
+}
+/* MOBILE E TABLET */
+@media (pointer: coarse) {
+    #root {
+        /* overflow: hidden; */
+        flex-wrap: wrap;
+    }
+    #page-create-point header {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    #page-create-point form h1 {
+        text-align: center;
+    }
+    #page-create-point fieldset legend {
+        flex-direction: column;
+    }
+    #page-create-point form legend span {
+        margin-top: 6.5px;
+    }
+    #page-create-point .home::before {
+        content: "";
+        margin: 11px;
+    }
+    #page-create-point .field-group {
+        flex-wrap: wrap;
+        flex: 0;
+    }
+    #page-create-point form .field-group .field + .field {
+        margin-left: 0;
+    }
+    .items-grid {
+        grid-template-columns: 50% 50%;
+        /* border: 1px solid #000; */
+        gap: 0;
+    }
+    .items-grid li {
+        margin: 6px;
+    }
+    #page-create-point form button {
+        align-self: center;
+        width: 100%;
     }
 }
