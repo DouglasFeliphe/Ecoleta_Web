@@ -2,4 +2,4 @@
 
 ### front-end da aplicação construída no evento NLW-01 da Rocketseat.
 
-- [ ] Cadastrar ponto de coleta de lixo.
+- [ ] Cadastro de ponto de coleta de lixo.
