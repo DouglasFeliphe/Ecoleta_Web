@@ -1,6 +1,7 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Map, TileLayer, Marker } from 'react-leaflet';
+// import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
 import { LeafletMouseEvent } from 'leaflet';
 import api from '../../services/api';
 import axios from 'axios';
@@ -62,6 +63,8 @@ const CreatePoint: React.FC = () => {
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords
             setInititalMapPosition([latitude, longitude])
+            // marcando a posição atual no mapa
+            setSelectedMapPosition([latitude, longitude])
         })
     }, [])
 

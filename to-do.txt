@@ -2,5 +2,6 @@
     items de coleta sobresaindo o lado direito da tela. 
 
 [x] tratamento do upload de imagens no frontend   
-[] mapa não esta carregando
-[x] mostrar messagem de sucesso ou falha com janela modal ao criar ponto de coleta    
+[x] mapa não esta carregando
+[x] mostrar messagem de sucesso ou falha com janela modal ao criar ponto de coleta 
+[x] pegar localizar atual do usuário e mostrar no mapa   
