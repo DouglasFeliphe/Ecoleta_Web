@@ -9,7 +9,7 @@ import Dropzone from '../../components/Dropzone'
 import { FiArrowLeft } from 'react-icons/fi';
 import logo from '../../assets/logo.svg';
 import './styles.css';
-import SuccessScreen from '../../components/SucessScreen';
+import FlashScreen from '../../components/FlashScreen';
 
 
 interface Item {
@@ -54,11 +54,11 @@ const CreatePoint: React.FC = () => {
     const [selectedMapPosition, setSelectedMapPosition] = useState<[number, number]>([0, 0]);
     const [selectedFile, setSelectedFile] = useState<File>();
 
-    const [successScreen, setSuccessScreen] = useState(' ');
+    const [flashScreen, setFlashScreen] = useState(' ');
 
     //  carregando a localização atual do usuário no mapa
-    useEffect(() => {        
-      
+    useEffect(() => {
+
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords
             setInititalMapPosition([latitude, longitude])
@@ -91,15 +91,6 @@ const CreatePoint: React.FC = () => {
                 setCities(cityNames)
             })
     }, [selectedUf])
-
-
-    // carregando a tela da successScreenação de cadastro do ponto,
-    // sempre que o ponto for cadastrado.
-    useEffect(() => {
-
-        setSuccessScreen('')
-    }, [successScreen])
-
 
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -167,9 +158,7 @@ const CreatePoint: React.FC = () => {
 
         await api.post('point', data)
 
-        alert('Ponto de coleta criado!');
-
-        setSuccessScreen('visible')
+        setFlashScreen('visible')
     }
 
     return (
@@ -286,7 +275,7 @@ const CreatePoint: React.FC = () => {
                     <button type="submit">Cadastrar Ponto de Coleta</button>
                 </form>
             </div >
-            <SuccessScreen className={successScreen}></SuccessScreen>
+            <FlashScreen text="Ponto de coleta criado com sucesso." className={flashScreen}></FlashScreen>
         </>
     )
 }

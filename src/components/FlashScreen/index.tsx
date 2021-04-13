@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import { FiCheckCircle } from 'react-icons/fi';
 
 
-const SuccessScreen = (props: any) => {
+const FlashScreen = (props: any) => {
 
     return (
-        <div id='page-alert-confirm' className={props.confirm}>
+        <div id='page-alert-confirm' className={props.className}>
             <Link to='/Ecoleta_Web'>
                 <FiCheckCircle />
-                <h1>Cadastro concluído!</h1>
+                <h1>{props.text}</h1>
             </Link>
         </div>
     )
 }
 
-export default SuccessScreen;
+export default FlashScreen;

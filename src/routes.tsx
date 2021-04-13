@@ -3,6 +3,7 @@ import { Route, BrowserRouter } from 'react-router-dom';
 
 import Home from './pages/Home';
 import CreatePoint from './pages/CreatePoint';
+import FlashScreen from './components/FlashScreen';
 
 function Routes() {
     return (
